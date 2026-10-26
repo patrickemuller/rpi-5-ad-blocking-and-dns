@@ -1,0 +1,98 @@
+{
+  "_comment": "Generic Pi-hole v6 profile used by scripts/pihole_tool.rb. value=null means network-specific: set it in config/settings.local.json. apply=false means advisory (audit reports it, apply never changes it).",
+  "settings": {
+    "dns.upstreams": {
+      "value": ["9.9.9.9", "149.112.112.112"],
+      "why": "One provider pair gives consistent answers and one privacy policy. Default here: Quad9 (validates DNSSEC, blocks known-malicious domains). Alternatives: Cloudflare 1.1.1.1/1.0.0.1, or 127.0.0.1#5335 for a local unbound. pihole_bench.rb shows which is fastest for you.",
+      "ui": "Settings → DNS → Upstream DNS Servers / Custom DNS servers"
+    },
+    "dns.listeningMode": {
+      "value": "LOCAL",
+      "why": "Answers only devices on directly connected subnets, so an accidental port forward can't create an open resolver. Use ALL only for clients that reach the Pi through a router (other VLAN, VPN subnet not terminated on the Pi).",
+      "ui": "Settings → DNS → Interface settings"
+    },
+    "dns.blockTTL": {
+      "value": 2,
+      "why": "Clients cache blocked answers this many seconds; large values make new allowlist entries look broken.",
+      "ui": "Settings → All settings → dns.blockTTL"
+    },
+    "dns.replyWhenBusy": {
+      "value": "ALLOW",
+      "why": "During the brief gravity database swap, answer normally instead of leaving clients waiting on dropped queries.",
+      "ui": "Settings → All settings → dns.replyWhenBusy"
+    },
+    "dns.domainNeeded": {
+      "value": true,
+      "why": "Never forward single-label names (e.g. 'printer') to the internet.",
+      "ui": "Settings → DNS → Advanced DNS settings"
+    },
+    "dns.bogusPriv": {
+      "value": true,
+      "why": "Never forward reverse lookups of private IP ranges to the internet.",
+      "ui": "Settings → DNS → Advanced DNS settings"
+    },
+    "dns.blocking.mode": {
+      "value": "NULL",
+      "why": "Blocked names get 0.0.0.0/:: and clients give up instantly. Pi-hole's recommended mode.",
+      "ui": "Settings → All settings → dns.blocking.mode"
+    },
+    "dns.cache.size": {
+      "value": 10000,
+      "why": "The default fits home networks; above 10k lookups slow down. Raise only if the audit reports live cache evictions.",
+      "ui": "Settings → All settings → dns.cache.size"
+    },
+    "dns.cache.optimizer": {
+      "value": 3600,
+      "why": "Serve just-expired records instantly while refreshing them in the background.",
+      "ui": "Settings → All settings → dns.cache.optimizer"
+    },
+    "dns.specialDomains.iCloudPrivateRelay": {
+      "value": true,
+      "why": "Stops Apple devices from tunnelling DNS past Pi-hole via iCloud Private Relay.",
+      "ui": "Settings → All settings → dns.specialDomains"
+    },
+    "dns.specialDomains.mozillaCanary": {
+      "value": true,
+      "why": "Tells Firefox not to auto-enable DNS-over-HTTPS, which would bypass Pi-hole.",
+      "ui": "Settings → All settings → dns.specialDomains"
+    },
+    "dns.specialDomains.designatedResolver": {
+      "value": true,
+      "why": "Blocks DDR discovery (_dns.resolver.arpa) so clients don't upgrade to an encrypted resolver that bypasses Pi-hole.",
+      "ui": "Settings → All settings → dns.specialDomains"
+    },
+    "dns.dnssec": {
+      "value": false,
+      "apply": false,
+      "why": "Validating upstreams (Quad9, Cloudflare, Google) already reject bad signatures; enable only if yours doesn't. The audit tests this.",
+      "ui": "Settings → DNS → Advanced DNS settings"
+    },
+    "dns.revServers": {
+      "value": null,
+      "why": "Conditional forwarding so clients show by name: [\"true,<LAN CIDR>,<router IP>[,<local domain>]\"].",
+      "ui": "Settings → DNS → Conditional forwarding"
+    },
+    "webserver.acl": {
+      "value": null,
+      "why": "Limit the web UI/API to LAN (+VPN): \"+127.0.0.1,+[::1],+<LAN CIDR>\". Last match wins; everything else is denied.",
+      "ui": "Settings → All settings → webserver.acl"
+    },
+    "webserver.port": {
+      "value": "80o,443os,[::]:80o,[::]:443os",
+      "why": "Pi-hole's default: plain HTTP without a forced HTTPS redirect (no certificate warnings) for a web UI that is only reachable inside the LAN. HTTPS stays available on 443 if you want it.",
+      "ui": "Settings → All settings → webserver.port"
+    },
+    "ntp.ipv4.active": {
+      "value": false,
+      "apply": false,
+      "why": "Pi-hole runs an NTP server on UDP/123. Turn it off if no device uses the Pi as its time server (keep ntp.sync on).",
+      "ui": "Settings → All settings → ntp"
+    },
+    "ntp.ipv6.active": {
+      "value": false,
+      "apply": false,
+      "why": "Same as ntp.ipv4.active.",
+      "ui": "Settings → All settings → ntp"
+    }
+  }
+}

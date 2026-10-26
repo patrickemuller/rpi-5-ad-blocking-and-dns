@@ -1,0 +1,8 @@
+{
+  "_comment": "Copy to config/settings.local.json (git-ignored) and fill in your network. Keys under settings override config/recommended.json.",
+  "url": "http://192.168.1.2",
+  "settings": {
+    "dns.revServers": ["true,192.168.1.0/24,192.168.1.1"],
+    "webserver.acl": "+127.0.0.1,+[::1],+192.168.1.0/24"
+  }
+}
