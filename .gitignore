@@ -1,0 +1,26 @@
+# Personal, device-specific files (see README.md)
+*.local.md
+*.local.json
+!*.local.example.json
+.env.local
+
+# Teleporter backups contain password hashes and the TOTP secret
+backups/
+
+# Benchmark results contain IPs and network details
+benchmarks/
+
+# Raspberry Pi inventories from trixie_check.rb (packages, services, paths of one device)
+inventory/
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Ignored default folder with query files
+/queries/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+.idea/*
+
