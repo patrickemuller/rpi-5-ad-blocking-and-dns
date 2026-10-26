@@ -28,7 +28,7 @@ module PiholeTool
     443 => "https (Pi-hole UI)", 445 => "smb", 1883 => "mqtt", 3000 => "web app", 3389 => "rdp", 5000 => "web app",
     5335 => "unbound (should be localhost only)", 5900 => "vnc", 8000 => "web app", 8080 => "web app",
     8081 => "web app", 8096 => "jellyfin/emby", 8112 => "deluge", 8123 => "home assistant", 8443 => "web app",
-    8920 => "jellyfin/emby https", 9000 => "portainer", 9090 => "web app", 9443 => "portainer", 32400 => "plex"
+    8920 => "jellyfin/emby https", 9000 => "portainer", 9090 => "cockpit / web app", 9443 => "portainer", 32400 => "plex"
   }.freeze
 
   class Report
